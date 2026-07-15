@@ -1,0 +1,65 @@
+:root {
+  /* Paleta Dark Mode */
+  --bg-color: #121212;
+  --surface-color: #1e1e1e;
+  --text-main: #e0e0e0;
+  --text-muted: #585858;
+  --accent-color: #0b4f77;
+  /* Azul moderno */
+  --border-color: #333333;
+  --danger-color: #863434;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Padronização de Inputs */
+input {
+  background-color: var(--surface-color);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+input:focus {
+  border-color: var(--accent-color);
+}
+
+/* Padronização de Botões */
+button {
+  background-color: var(--surface-color);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--accent-color);
+  background-color: #2a2a2a;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Links de Navegação */
+nav a {
+  color: var(--text-muted) !important;
+  transition: color 0.2s;
+}
+
+nav a:hover,
+nav a.active {
+  color: var(--accent-color) !important;
+}
