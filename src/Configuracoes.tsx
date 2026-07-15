@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './supabaseClient'
+import { toast } from './Toast'
 
 type Category = {
   id: string
@@ -31,7 +32,7 @@ export default function Configuracoes() {
 
     setLoading(false)
     if (error) {
-      alert('Erro ao criar categoria: ' + error.message)
+      toast('Erro ao criar categoria: ' + error.message, 'error')
     } else {
       setName('')
       setIcon('')
@@ -44,7 +45,7 @@ export default function Configuracoes() {
 
     const { error } = await supabase.from('categories').delete().eq('id', id)
     if (error) {
-      alert('Erro ao excluir: ' + error.message)
+      toast('Erro ao excluir: ' + error.message, 'error')
     } else {
       fetchCategories() // Atualiza a lista
     }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './supabaseClient'
+import { toast } from './Toast'
 
 type Category = { id: string; name: string; icon: string }
 
@@ -55,13 +56,13 @@ export default function Home() {
 
     if (!error) {
       localStorage.removeItem('offline_expenses')
-      alert(`Sincronizamos ${expensesToSync.length} gastos que estavam pendentes!`)
+      toast(`Sincronizamos ${expensesToSync.length} gastos que estavam pendentes!`)
     }
   }
 
   const handleSaveExpense = async (categoryId: string) => {
     if (!amount || isNaN(Number(amount))) {
-      alert('Por favor, insira um valor válido.')
+      toast('Por favor, insira um valor válido.', 'error')
       return
     }
 
@@ -76,15 +77,15 @@ export default function Home() {
 
     if (isOnline) {
       const { error } = await supabase.from('expenses').insert([newExpense])
-      if (error) alert('Erro ao salvar: ' + error.message)
-      else alert('Gasto salvo com sucesso!')
+      if (error) toast('Erro ao salvar: ' + error.message, 'error')
+      else toast('Gasto salvo com sucesso!')
     } else {
       const pendentes = localStorage.getItem('offline_expenses')
       const queue: OfflineExpense[] = pendentes ? JSON.parse(pendentes) : []
       queue.push(newExpense)
       localStorage.setItem('offline_expenses', JSON.stringify(queue))
 
-      alert('Sem internet! Gasto salvo offline. Sincronizaremos quando o sinal voltar.')
+      toast('Sem internet! Gasto salvo offline. Sincronizaremos quando o sinal voltar.')
     }
 
     setAmount('')

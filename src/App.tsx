@@ -5,6 +5,8 @@ import { supabase } from './supabaseClient'
 import Home from './Home'
 import Configuracoes from './Configuracoes'
 import Relatorio from './Relatorio'
+import Toast from './Toast'
+import { toast } from './Toast'
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null)
@@ -27,7 +29,7 @@ export default function App() {
 
   const handleLogin = async () => {
     const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) alert('Erro ao fazer login: ' + error.message)
+    if (error) toast('Erro ao fazer login: ' + error.message, 'error')
   }
 
   if (loading) return <div>Carregando...</div>
@@ -63,28 +65,31 @@ export default function App() {
   }
 
   return (
-    <HashRouter>
-      <div style={{ padding: '1rem', maxWidth: '400px', margin: '0 auto' }}>
+    <>
+      <HashRouter>
+        <div style={{ padding: '0.5rem', maxWidth: '400px', margin: '0 auto' }}>
 
-        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-          <h2>💱 Corazza CashTracker</h2>
-          <button onClick={() => supabase.auth.signOut()} style={{ padding: '0.4rem' }}>Sair</button>
-        </header>
+          <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+            <h2>💱 Corazza CashTracker</h2>
+            <button onClick={() => supabase.auth.signOut()} style={{ padding: '0.4rem' }}>Sair</button>
+          </header>
 
-        {/* Barra de Navegação Simples */}
-        <nav style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', borderBottom: '1px solid #ccc', paddingBottom: '1rem' }}>
-          <Link to="/" style={{ textDecoration: 'none', color: '#007bff', fontWeight: 'bold' }}>Início</Link>
-          <Link to="/relatorio" style={{ textDecoration: 'none', color: '#007bff', fontWeight: 'bold' }}>Relatório</Link>
-          <Link to="/configuracoes" style={{ textDecoration: 'none', color: '#007bff', fontWeight: 'bold' }}>Configurações</Link>
-        </nav>
+          {/* Barra de Navegação Simples */}
+          <nav style={{ display: 'flex', justifyContent: 'space-around', gap: '1rem', marginBottom: '1rem', borderBottom: '2px solid #ccc', paddingBottom: '0.5rem' }}>
+            <Link to="/" style={{ textDecoration: 'none', fontWeight: 'bold', borderBottom: '1px solid var(--text-muted)', width: '125px', textAlign: 'center', padding: '5px' }}>Início</Link>
+            <Link to="/relatorio" style={{ textDecoration: 'none', fontWeight: 'bold', borderBottom: '1px solid var(--text-muted)', width: '125px', textAlign: 'center', padding: '5px' }}>Relatório</Link>
+            <Link to="/configuracoes" style={{ textDecoration: 'none', fontWeight: 'bold', borderBottom: '1px solid var(--text-muted)', width: '125px', textAlign: 'center', padding: '5px' }}>Configurações</Link>
+          </nav>
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/relatorio" element={<Relatorio />} />
-          <Route path="/configuracoes" element={<Configuracoes />} />
-        </Routes>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/relatorio" element={<Relatorio />} />
+            <Route path="/configuracoes" element={<Configuracoes />} />
+          </Routes>
 
-      </div>
-    </HashRouter>
+        </div>
+      </HashRouter>
+      <Toast />
+    </>
   )
 }

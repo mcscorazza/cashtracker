@@ -4,7 +4,7 @@
   --surface-color: #1e1e1e;
   --text-main: #e0e0e0;
   --text-muted: #585858;
-  --accent-color: #0b4f77;
+  --accent-color: #7a00aa;
   /* Azul moderno */
   --border-color: #333333;
   --danger-color: #863434;
@@ -55,11 +55,11 @@ button:disabled {
 
 /* Links de Navegação */
 nav a {
-  color: var(--text-muted) !important;
+  color: var(--text-main);
   transition: color 0.2s;
 }
 
 nav a:hover,
 nav a.active {
-  color: var(--accent-color) !important;
+  color: var(--accent-color);
 }
