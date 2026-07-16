@@ -80,12 +80,18 @@ export default function Relatorio() {
 
   if (loading) return <p>Carregando relatório...</p>
 
+  const getCorDoTotal = (total: number) => {
+    if (total > 2000) return 'var(--danger-color)'
+    if (total > 1500) return '#fbbf24'
+    return 'var(--text-main)'
+  }
+
   return (
     <div style={{ maxWidth: '400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 
       <div style={{ padding: '1.5rem', borderRadius: '12px', textAlign: 'center', background: 'var(--surface-color)', border: '1px solid var(--text-muted)' }}>
         <h3 style={{ margin: 0, fontWeight: 'normal', fontSize: '1rem' }}>Total da Semana</h3>
-        <h1 style={{ margin: '0.5rem 0 0 0', fontSize: '2.5rem' }}>
+        <h1 style={{ margin: '0.5rem 0 0 0', fontSize: '2.5rem', color: getCorDoTotal(totalWeek), transition: 'color 0.3s' }}>
           R$ {totalWeek.toFixed(2).replace('.', ',')}
         </h1>
       </div>

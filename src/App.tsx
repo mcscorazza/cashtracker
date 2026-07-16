@@ -78,7 +78,7 @@ export default function App() {
           <nav style={{ display: 'flex', justifyContent: 'space-around', gap: '1rem', marginBottom: '1rem', borderBottom: '2px solid #ccc', paddingBottom: '0.5rem' }}>
             <Link to="/" style={{ textDecoration: 'none', fontWeight: 'bold', borderBottom: '1px solid var(--text-muted)', width: '125px', textAlign: 'center', padding: '5px' }}>Início</Link>
             <Link to="/relatorio" style={{ textDecoration: 'none', fontWeight: 'bold', borderBottom: '1px solid var(--text-muted)', width: '125px', textAlign: 'center', padding: '5px' }}>Relatório</Link>
-            <Link to="/configuracoes" style={{ textDecoration: 'none', fontWeight: 'bold', borderBottom: '1px solid var(--text-muted)', width: '125px', textAlign: 'center', padding: '5px' }}>Configurações</Link>
+            <Link to="/configuracoes" style={{ textDecoration: 'none', fontWeight: 'bold', borderBottom: '1px solid var(--text-muted)', width: '20px', textAlign: 'center', padding: '5px' }}>⚙</Link>
           </nav>
 
           <Routes>
