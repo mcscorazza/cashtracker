@@ -103,7 +103,6 @@ export default function Home() {
   return (
     <div style={{ maxWidth: '400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
 
-      {/* Aviso visual de status da rede */}
       {!isOnline && (
         <div style={{ padding: '0.8rem', borderRadius: '8px', textAlign: 'center', fontWeight: 'bold' }}>
           Você está Offline. Os gastos serão salvos no celular.
@@ -111,22 +110,20 @@ export default function Home() {
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        <label style={{ fontWeight: 'bold' }}>Valor (R$)</label>
         <input
           type="number"
           step="0.01"
           placeholder="0.00"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          style={{ fontSize: '2rem', padding: '0.5rem', textAlign: 'center', borderRadius: '8px' }}
+          style={{ fontSize: '2.5rem', padding: '0.75rem', textAlign: 'center', borderRadius: '8px' }}
         />
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        <label style={{ fontWeight: 'bold' }}>Descrição (opcional)</label>
         <input
           type="text"
-          placeholder="Ex: Almoço padaria"
+          placeholder="Descrição (opcional)"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           style={{ padding: '0.8rem', borderRadius: '8px', fontSize: '1rem' }}
