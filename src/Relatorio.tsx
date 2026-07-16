@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { supabase } from './supabaseClient'
 
 type Expense = {
@@ -119,7 +120,22 @@ export default function Relatorio() {
           </ul>
         )}
       </div>
-
+      <Link
+        to="/relatorio-mes"
+        style={{
+          display: 'block',
+          textAlign: 'center',
+          marginTop: '1rem',
+          padding: '1rem',
+          background: 'var(--surface-color)',
+          color: 'var(--text-main)',
+          textDecoration: 'none',
+          borderRadius: '8px',
+          border: '1px solid var(--border-color)'
+        }}
+      >
+        Mês Completo
+      </Link>
     </div>
   )
 }

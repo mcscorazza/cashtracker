@@ -5,6 +5,7 @@ import { supabase } from './supabaseClient'
 import Home from './Home'
 import Configuracoes from './Configuracoes'
 import Relatorio from './Relatorio'
+import RelatorioMes from './RelatorioMes'
 import Toast from './Toast'
 import { toast } from './Toast'
 
@@ -84,6 +85,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/relatorio" element={<Relatorio />} />
+            <Route path="/relatorio-mes" element={<RelatorioMes />} />
             <Route path="/configuracoes" element={<Configuracoes />} />
           </Routes>
 
