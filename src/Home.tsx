@@ -18,6 +18,11 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [isOnline, setIsOnline] = useState(navigator.onLine)
 
+  const getToday = () => new Date().toISOString().split('T')[0]
+
+  const [expenseDate, setExpenseDate] = useState(getToday())
+  const [showDatePicker, setShowDatePicker] = useState(false)
+
   useEffect(() => {
     fetchCategories()
 
@@ -72,7 +77,7 @@ export default function Home() {
       amount: parseFloat(amount),
       description: description,
       category_id: categoryId,
-      expense_date: new Date().toISOString()
+      expense_date: expenseDate
     }
 
     if (isOnline) {
@@ -90,11 +95,13 @@ export default function Home() {
 
     setAmount('')
     setDescription('')
+    setExpenseDate(getToday())
+    setShowDatePicker(false)
     setLoading(false)
   }
 
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div style={{ maxWidth: '400px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
 
       {/* Aviso visual de status da rede */}
       {!isOnline && (
@@ -104,7 +111,7 @@ export default function Home() {
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        <label style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Valor (R$)</label>
+        <label style={{ fontWeight: 'bold' }}>Valor (R$)</label>
         <input
           type="number"
           step="0.01"
@@ -126,8 +133,45 @@ export default function Home() {
         />
       </div>
 
+      {/* Botão de Data Retroativa e Input */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <button
+          type="button"
+          onClick={() => setShowDatePicker(!showDatePicker)}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: 'var(--text-muted)',
+            textAlign: 'left',
+            padding: '0.5rem 0',
+            fontSize: '0.9rem',
+            cursor: 'pointer',
+            display: 'inline-flex',
+            width: 'fit-content'
+          }}
+        >
+          {showDatePicker ? '▼ Ocultar data' : '▶ Lançar com data retroativa'}
+        </button>
+        {showDatePicker && (
+          <input
+            type="date"
+            value={expenseDate}
+            max={getToday()}
+            onChange={(e) => setExpenseDate(e.target.value)}
+            style={{
+              padding: '0.8rem',
+              borderRadius: '8px',
+              fontSize: '1rem',
+              backgroundColor: 'var(--surface-color)',
+              color: 'var(--text-main)',
+              border: '1px solid var(--border-color)',
+              colorScheme: 'dark'
+            }}
+          />
+        )}
+      </div>
+
       <div>
-        <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '1rem' }}>Selecione a Categoria</label>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
           {categories.map((cat) => (
             <button
