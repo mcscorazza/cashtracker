@@ -68,7 +68,7 @@ export default function App() {
   return (
     <>
       <HashRouter>
-        <div style={{ padding: '0.1rem', maxWidth: '400px', margin: '0 auto' }}>
+        <div style={{ padding: '0.75rem', maxWidth: '400px', margin: '0 auto' }}>
 
           <header style={{ display: 'flex', justifyContent: 'space-between', lineHeight: '1.5rem', alignItems: 'center', marginBottom: '0.5rem' }}>
             <h2>💱 Corazza CashTracker</h2>
