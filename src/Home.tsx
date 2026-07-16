@@ -109,7 +109,7 @@ export default function Home() {
         </div>
       )}
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '1rem' }}>
         <input
           type="number"
           step="0.01"
@@ -120,7 +120,7 @@ export default function Home() {
         />
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '1rem' }}>
         <input
           type="text"
           placeholder="Descrição (opcional)"
@@ -131,7 +131,7 @@ export default function Home() {
       </div>
 
       {/* Botão de Data Retroativa e Input */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1rem' }}>
         <button
           type="button"
           onClick={() => setShowDatePicker(!showDatePicker)}
@@ -181,7 +181,7 @@ export default function Home() {
               }}
             >
               <span style={{ fontSize: '2rem' }}>{cat.icon}</span>
-              <span style={{ fontSize: '0.8rem', marginTop: '0.5rem', textAlign: 'center' }}>{cat.name}</span>
+              <span style={{ fontSize: '0.65rem', marginTop: '0.5rem', textAlign: 'center' }}>{cat.name}</span>
             </button>
           ))}
         </div>
