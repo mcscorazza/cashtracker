@@ -13,6 +13,8 @@ export default function Configuracoes() {
   const [name, setName] = useState('')
   const [icon, setIcon] = useState('')
   const [loading, setLoading] = useState(false)
+  const [newPassword, setNewPassword] = useState('')
+  const [updatingPassword, setUpdatingPassword] = useState(false)
 
   useEffect(() => {
     fetchCategories()
@@ -48,6 +50,24 @@ export default function Configuracoes() {
       toast('Erro ao excluir: ' + error.message, 'error')
     } else {
       fetchCategories() // Atualiza a lista
+    }
+  }
+
+  async function handleUpdatePassword(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setUpdatingPassword(true)
+
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword
+    })
+
+    setUpdatingPassword(false)
+
+    if (error) {
+      toast('Erro ao atualizar senha: ' + error.message, 'error')
+    } else {
+      setNewPassword('')
+      toast('Senha atualizada com sucesso!')
     }
   }
 
