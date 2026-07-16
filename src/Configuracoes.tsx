@@ -120,6 +120,29 @@ export default function Configuracoes() {
         </ul>
       </div>
 
+      {/* Bloco de Atualizar Senha */}
+      <form onSubmit={handleUpdatePassword} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem', background: 'var(--surface-color)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+        <h3>Definir / Alterar Senha</h3>
+        <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+          Se você entrou por um link de convite, defina sua senha aqui para os próximos acessos.
+        </p>
+        
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <input
+            type="password"
+            placeholder="Digite a nova senha"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+            minLength={6}
+            style={{ flex: 1, padding: '0.5rem', borderRadius: '4px' }}
+          />
+          <button type="submit" disabled={updatingPassword} style={{ padding: '0.5rem 1rem' }}>
+            {updatingPassword ? 'Salvando...' : 'Salvar Senha'}
+          </button>
+        </div>
+      </form>
+
     </div>
   )
 }
