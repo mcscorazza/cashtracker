@@ -2,6 +2,15 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from './supabaseClient'
 
+const DEFAULT_LIMIT_WARNING = 1500
+const DEFAULT_LIMIT_DANGER = 2000
+
+function getLimits() {
+  const warning = Number(localStorage.getItem('ct_limit_warning')) || DEFAULT_LIMIT_WARNING
+  const danger = Number(localStorage.getItem('ct_limit_danger')) || DEFAULT_LIMIT_DANGER
+  return { warning, danger }
+}
+
 type Expense = {
   amount: number
   description: string
@@ -77,10 +86,10 @@ export default function RelatorioMes() {
 
   if (loading) return <p style={{ textAlign: 'center' }}>Carregando detalhamento...</p>
 
-  // Lógica do semáforo que criamos anteriormente
   const getCorDoTotal = (total: number) => {
-    if (total > 2000) return 'var(--danger-color)'
-    if (total > 1500) return '#fbbf24'
+    const { warning, danger } = getLimits()
+    if (total > danger) return 'var(--danger-color)'
+    if (total > warning) return '#fbbf24'
     return 'var(--text-main)'
   }
 

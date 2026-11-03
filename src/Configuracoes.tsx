@@ -15,6 +15,12 @@ export default function Configuracoes() {
   const [loading, setLoading] = useState(false)
   const [newPassword, setNewPassword] = useState('')
   const [updatingPassword, setUpdatingPassword] = useState(false)
+  const [limitWarning, setLimitWarning] = useState(
+    () => localStorage.getItem('ct_limit_warning') || '1500'
+  )
+  const [limitDanger, setLimitDanger] = useState(
+    () => localStorage.getItem('ct_limit_danger') || '2000'
+  )
 
   useEffect(() => {
     fetchCategories()
@@ -23,7 +29,14 @@ export default function Configuracoes() {
   async function fetchCategories() {
     const { data, error } = await supabase.from('categories').select('*').order('name')
     if (data) setCategories(data)
-    if (error) console.error('Erro ao buscar categorias:', error)
+    if (error) toast('Erro ao carregar categorias: ' + error.message, 'error')
+  }
+
+  function handleSaveLimits(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    localStorage.setItem('ct_limit_warning', limitWarning)
+    localStorage.setItem('ct_limit_danger', limitDanger)
+    toast('Limites atualizados!')
   }
 
   async function handleAddCategory(e: React.FormEvent<HTMLFormElement>) {
@@ -119,6 +132,41 @@ export default function Configuracoes() {
           {categories.length === 0 && <p style={{ color: '#666' }}>Nenhuma categoria cadastrada.</p>}
         </ul>
       </div>
+
+      {/* Bloco de Limites de Gasto */}
+      <form onSubmit={handleSaveLimits} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem', background: 'var(--surface-color)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+        <h3>Limites de Gasto</h3>
+        <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+          Defina os valores que ativam o alerta amarelo e o vermelho nos relatórios.
+        </p>
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          <span style={{ fontSize: '1.2rem' }}>🟡</span>
+          <input
+            type="number"
+            placeholder="Limite amarelo"
+            value={limitWarning}
+            onChange={(e) => setLimitWarning(e.target.value)}
+            required
+            min={1}
+            style={{ flex: 1, padding: '0.5rem', borderRadius: '4px' }}
+          />
+        </div>
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          <span style={{ fontSize: '1.2rem' }}>🔴</span>
+          <input
+            type="number"
+            placeholder="Limite vermelho"
+            value={limitDanger}
+            onChange={(e) => setLimitDanger(e.target.value)}
+            required
+            min={1}
+            style={{ flex: 1, padding: '0.5rem', borderRadius: '4px' }}
+          />
+        </div>
+        <button type="submit" style={{ padding: '0.5rem 1rem' }}>
+          Salvar Limites
+        </button>
+      </form>
 
       {/* Bloco de Atualizar Senha */}
       <form onSubmit={handleUpdatePassword} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem', background: 'var(--surface-color)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>

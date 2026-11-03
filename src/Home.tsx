@@ -4,6 +4,14 @@ import { toast } from './Toast'
 
 type Category = { id: string; name: string; icon: string }
 
+type RecentExpense = {
+  id: string
+  amount: number
+  description: string
+  expense_date: string
+  categories: { name: string; icon: string } | null
+}
+
 type OfflineExpense = {
   amount: number
   description: string
@@ -13,6 +21,7 @@ type OfflineExpense = {
 
 export default function Home() {
   const [categories, setCategories] = useState<Category[]>([])
+  const [recentExpenses, setRecentExpenses] = useState<RecentExpense[]>([])
   const [amount, setAmount] = useState('')
   const [description, setDescription] = useState('')
   const [loading, setLoading] = useState(false)
@@ -25,6 +34,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchCategories()
+    fetchRecentExpenses()
 
     const handleOnline = () => {
       setIsOnline(true)
@@ -44,8 +54,18 @@ export default function Home() {
   }, [])
 
   async function fetchCategories() {
-    const { data } = await supabase.from('categories').select('*').order('name')
+    const { data, error } = await supabase.from('categories').select('*').order('name')
     if (data) setCategories(data)
+    if (error) toast('Erro ao carregar categorias: ' + error.message, 'error')
+  }
+
+  async function fetchRecentExpenses() {
+    const { data } = await supabase
+      .from('expenses')
+      .select('id, amount, description, expense_date, categories(name, icon)')
+      .order('created_at', { ascending: false })
+      .limit(10)
+    if (data) setRecentExpenses(data as unknown as RecentExpense[])
   }
 
   async function syncOfflineExpenses() {
@@ -83,7 +103,7 @@ export default function Home() {
     if (isOnline) {
       const { error } = await supabase.from('expenses').insert([newExpense])
       if (error) toast('Erro ao salvar: ' + error.message, 'error')
-      else toast('Gasto salvo com sucesso!')
+      else { toast('Gasto salvo com sucesso!'); fetchRecentExpenses() }
     } else {
       const pendentes = localStorage.getItem('offline_expenses')
       const queue: OfflineExpense[] = pendentes ? JSON.parse(pendentes) : []
@@ -186,6 +206,35 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {recentExpenses.length > 0 && (
+        <div style={{ marginTop: '0.5rem' }}>
+          <h4 style={{ margin: '0 0 0.5rem 0', fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 'normal' }}>
+            Últimos lançamentos
+          </h4>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            {recentExpenses.map((exp) => {
+              const [, mes, dia] = exp.expense_date.split('-')
+              return (
+                <li key={exp.id} style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  padding: '0.6rem 0.8rem', borderRadius: '8px', background: 'var(--surface-color)',
+                  border: '1px solid var(--border-color)'
+                }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem' }}>
+                    <span>{exp.categories?.icon ?? '❓'}</span>
+                    <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{dia}/{mes}</span>
+                    <span>{exp.description || exp.categories?.name || 'Sem descrição'}</span>
+                  </span>
+                  <span style={{ fontSize: '0.9rem', whiteSpace: 'nowrap' }}>
+                    R$ {Number(exp.amount).toFixed(2).replace('.', ',')}
+                  </span>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )}
 
     </div>
   )

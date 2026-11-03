@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export function toast(message: string, type: 'success' | 'error' = 'success') {
   window.dispatchEvent(new CustomEvent('show-toast', { detail: { message, type } }))
@@ -6,20 +6,25 @@ export function toast(message: string, type: 'success' | 'error' = 'success') {
 
 export default function Toast() {
   const [toastData, setToastData] = useState<{ message: string, type: string } | null>(null)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const handleToast = (e: Event) => {
       const customEvent = e as CustomEvent
       setToastData(customEvent.detail)
 
-      // Faz a mensagem sumir após 3 segundos
-      setTimeout(() => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+      timerRef.current = setTimeout(() => {
         setToastData(null)
+        timerRef.current = null
       }, 3000)
     }
 
     window.addEventListener('show-toast', handleToast)
-    return () => window.removeEventListener('show-toast', handleToast)
+    return () => {
+      window.removeEventListener('show-toast', handleToast)
+      if (timerRef.current) clearTimeout(timerRef.current)
+    }
   }, [])
 
   if (!toastData) return null
