@@ -1,9 +1,18 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import { resolve } from "node:path";
 
 export default defineConfig({
   base: "/cashtracker/",
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        dash: resolve(__dirname, "dash/index.html"),
+      },
+    },
+  },
   plugins: [
     react(),
     VitePWA({
@@ -31,6 +40,8 @@ export default defineConfig({
         ],
       },
       workbox: {
+        // o dashboard (/dash/) é uma página separada; não pode cair no fallback do app
+        navigateFallbackDenylist: [/\/dash\//],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/.*\.supabase\.co\/rest\/v1\/.*/i,
