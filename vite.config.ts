@@ -10,6 +10,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "index.html"),
         dash: resolve(__dirname, "dash/index.html"),
+        weeks: resolve(__dirname, "weeks/index.html"),
       },
     },
   },
@@ -40,8 +41,8 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // o dashboard (/dash/) é uma página separada; não pode cair no fallback do app
-        navigateFallbackDenylist: [/\/dash\//],
+        // os dashboards (/dash/ e /weeks/) são páginas separadas; não podem cair no fallback do app
+        navigateFallbackDenylist: [/\/dash\//, /\/weeks\//],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/.*\.supabase\.co\/rest\/v1\/.*/i,

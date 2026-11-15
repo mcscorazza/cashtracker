@@ -40,3 +40,15 @@ tbody tr:hover { background: #262626; }
 tfoot td { font-weight: bold; border-bottom: none; }
 .muted { color: #9a9a9a; }
 .empty { text-align: center; color: #9a9a9a; padding: 2rem 0; }
+
+.dash-nav { display: flex; gap: 0.25rem; }
+.dash-nav a { padding: 0.4rem 0.9rem; border-radius: 8px; text-decoration: none; color: #9a9a9a; border: 1px solid transparent; }
+.dash-nav a:hover { color: var(--text-main); }
+.dash-nav a.active { color: var(--text-main); border-color: var(--border-color); background: var(--surface-color); }
+.dash-left { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+.bar-col.clickable { cursor: pointer; }
+.bar.selected { background: #b84fe0; }
+.bar-value { font-size: 0.65rem; color: #9a9a9a; margin-bottom: 2px; white-space: nowrap; }
+.bars.week { height: 240px; gap: 14px; }
+.bars.week .bar-label { font-size: 0.8rem; text-transform: capitalize; }
+.bars.trend { height: 180px; gap: 8px; }
